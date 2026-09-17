@@ -1,0 +1,7 @@
+RewriteEngine On
+
+RewriteCond %{REQUEST_URI} !^/mobile/
+
+RewriteCond %{HTTP_USER_AGENT} "Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini" [NC]
+
+RewriteRule ^(.*)$ /mobile/$1 [L,R=302]

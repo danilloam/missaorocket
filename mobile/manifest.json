@@ -1,0 +1,22 @@
+{
+  "name": "Missão: Rocket - Gamificação",
+  "short_name": "MissãoRocket",
+  "description": "Arena de Performance e Gamificação",
+  "start_url": "index.php",
+  "display": "standalone",
+  "background_color": "#0b0e14",
+  "theme_color": "#161b26",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/16116/16116383.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/16116/16116383.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
