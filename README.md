@@ -277,31 +277,57 @@ penalizacoes_grupos
 locais
 ```
 
-### Principais relacionamentos conceituais
+### Principais tabelas
+
+| Tabela | Finalidade |
+|---|---|
+| `usuarios` | Cadastro, autenticação, perfil, grupo e dados do participante |
+| `grupos` | Cadastro dos clãs/grupos |
+| `provas` | Missões/provas disponíveis na plataforma |
+| `prova_destinatarios` | Associação de provas a participantes específicos |
+| `historico_pontos` | Registro das evidências e pontuação obtida |
+| `medalhas` | Medalhas conquistadas pelos participantes |
+| `usuarios_ofensivas` | Controle das ofensivas/streaks |
+| `config_ofensivas` | Configuração das recompensas das ofensivas |
+| `penalizacoes_grupos` | Adições ou penalizações de pontos dos grupos |
+| `usuarios_notificacoes` | Inscrições para notificações Web Push |
+| `usuarios_sessoes` | Controle de sessões/token de acesso |
+
+### Relacionamentos principais
 
 ```text
 USUÁRIO
    │
-   ├── pertence a ──> GRUPO
+   ├── pertence a ─────────> GRUPO
    │
-   ├── participa de ──> PROVA
-   │                       │
-   │                       └── gera ──> HISTÓRICO DE PONTOS
+   ├── recebe ─────────────> PROVA
+   │                           │
+   │                           └── possui destinatários
    │
-   ├── conquista ──> MEDALHAS
+   ├── envia evidência ────> HISTÓRICO DE PONTOS
    │
-   ├── possui ──> OFENSIVA
+   ├── conquista ──────────> MEDALHAS
    │
-   └── recebe ──> NOTIFICAÇÕES
+   ├── possui ─────────────> OFENSIVA
+   │
+   ├── recebe ─────────────> NOTIFICAÇÕES
+   │
+   └── mantém ─────────────> SESSÕES
 ```
 
-O ZIP analisado não contém um dump/schema SQL completo. Para disponibilizar o projeto publicamente, recomenda-se criar posteriormente um arquivo como:
+### Observação sobre o schema
+
+O banco utiliza **InnoDB** e possui chaves estrangeiras entre usuários, grupos, provas, histórico, medalhas, penalizações, destinatários e sessões.
+
+As tabelas do dump atualmente utilizam uma combinação de `latin1` e `utf8mb4`, conforme a estrutura existente. Em uma futura migração ou padronização do banco, recomenda-se avaliar a conversão para `utf8mb4` de forma planejada.
+
+O projeto possui um **dump SQL completo** para criação da estrutura do banco de dados. O arquivo pode ser mantido no repositório, preferencialmente em:
 
 ```text
-database/schema.sql
+database/missaorocket.sql
 ```
 
-com a estrutura necessária para instalação.
+O dump foi gerado em **17/09/2026** e contém as tabelas, índices, `AUTO_INCREMENT` e chaves estrangeiras utilizadas pela aplicação.
 
 ---
 
@@ -442,15 +468,33 @@ cd missao-rocket
 Crie o banco de dados:
 
 ```sql
-CREATE DATABASE missao_rocket
+CREATE DATABASE missaorocket
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
 ```
 
-Depois importe o schema do projeto, quando disponibilizado:
+Depois importe o dump SQL:
 
 ```bash
-mysql -u usuario -p missao_rocket < database/schema.sql
+mysql -u usuario -p missaorocket < database/missaorocket.sql
+```
+
+Ou importe `missaorocket.sql` através do phpMyAdmin.
+
+O dump cria as seguintes estruturas principais:
+
+```text
+config_ofensivas
+grupos
+historico_pontos
+medalhas
+penalizacoes_grupos
+provas
+prova_destinatarios
+usuarios
+usuarios_notificacoes
+usuarios_ofensivas
+usuarios_sessoes
 ```
 
 ### 3. Configure a conexão
@@ -636,7 +680,7 @@ O projeto possui mecanismos como:
 - proteção CSRF em partes da aplicação;
 - controle de acesso a funcionalidades administrativas.
 
----
+
 
 
 Caso as dependências sejam versionadas junto com o projeto, ajuste as regras de `vendor/` de acordo com a estratégia escolhida.
@@ -678,15 +722,14 @@ Algumas melhorias que podem ser consideradas para futuras versões:
 
 ## 📄 Licença
 
-A licença do projeto deve ser definida pelo autor antes da publicação.
+Este projeto está licenciado sob a [MIT License](LICENSE).
 
-Se nenhuma licença for adicionada ao repositório, os direitos autorais permanecem com o autor e terceiros não recebem automaticamente autorização para reutilizar, modificar ou distribuir o código.
-
+Copyright (c) 2026 Danillo Marques
 ---
 
 ## 👨‍💻 Autor
 
-**Danillo Almeida Marques**
+**Danillo Marques**
 
 Projeto desenvolvido como uma plataforma de gamificação e gestão de desafios, com foco em experiência mobile, competição entre grupos e acompanhamento de desempenho.
 
