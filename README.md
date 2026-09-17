@@ -636,44 +636,8 @@ O projeto possui mecanismos como:
 - proteção CSRF em partes da aplicação;
 - controle de acesso a funcionalidades administrativas.
 
-### Recomendações antes de publicar
-
-Antes de colocar o projeto em um repositório público:
-
-1. Remova todas as senhas do código.
-2. Remova chaves privadas VAPID.
-3. Remova credenciais SMTP.
-4. Remova tokens e segredos de produção.
-5. Remova uploads reais de usuários.
-6. Remova logs contendo informações privadas.
-7. Crie um `.env.example`.
-8. Adicione arquivos sensíveis ao `.gitignore`.
-9. Gere novas credenciais para o ambiente de produção caso alguma tenha sido exposta.
-10. Não publique dados biométricos reais.
-
 ---
 
-## 🧹 Arquivos que não devem ir para o GitHub
-
-Recomenda-se adicionar ao `.gitignore`:
-
-```gitignore
-.env
-.env.*
-*.log
-error_log
-
-/uploads/*
-/mobile/uploads/*
-!/uploads/.gitkeep
-!/mobile/uploads/.gitkeep
-
-vendor/
-mobile/vendor/
-
-.DS_Store
-Thumbs.db
-```
 
 Caso as dependências sejam versionadas junto com o projeto, ajuste as regras de `vendor/` de acordo com a estratégia escolhida.
 
